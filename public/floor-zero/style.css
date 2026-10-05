@@ -1,0 +1,222 @@
+/* =========================================================
+   TXT: FLOOR ZERO — Dark horror UI
+   ========================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #050506;
+  color: #ddd;
+  font-family: "Press Start 2P", "VT323", "Courier New", monospace;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Canvas wrapper keeps a 3:2 ratio and fits the screen */
+#wrap {
+  position: relative;
+  width: min(100vw, 150vh);
+  aspect-ratio: 3 / 2;
+  max-height: 100vh;
+  background: #000;
+  box-shadow: 0 0 60px rgba(255, 0, 0, 0.12);
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ---------- Overlays ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 10;
+}
+.overlay.soft { background: rgba(0, 0, 0, 0.45); }
+.hidden { display: none !important; }
+
+.panel {
+  padding: 2.5% 4%;
+  max-width: 90%;
+}
+.center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8em; }
+
+/* Green zombie-glow title */
+.title {
+  font-size: clamp(22px, 6vw, 64px);
+  color: #7dff5a;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 6px #4caf50, 0 0 18px #4caf50, 0 0 40px #2e7d32;
+}
+.flicker { animation: flicker 4s infinite; }
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; text-shadow: 0 0 6px #4caf50, 0 0 18px #4caf50, 0 0 40px #2e7d32; }
+  20%, 24%, 55% { opacity: 0.35; text-shadow: none; }
+}
+
+.subtitle {
+  font-size: clamp(11px, 2vw, 20px);
+  color: #c9c9c9;
+  letter-spacing: 0.3em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+}
+
+.heading {
+  font-size: clamp(16px, 3vw, 32px);
+  color: #ff3b3b;
+  text-shadow: 0 0 10px rgba(255, 30, 30, 0.7);
+}
+
+.hint {
+  font-size: clamp(9px, 1.4vw, 14px);
+  color: #888;
+  line-height: 1.6;
+  max-width: 40em;
+}
+
+/* Red glowing buttons */
+.btn {
+  font-family: inherit;
+  font-size: clamp(11px, 1.8vw, 18px);
+  min-width: 12em;
+  padding: 0.7em 1.4em;
+  background: #120607;
+  color: #ffdede;
+  border: 2px solid #b3161c;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.45), inset 0 0 8px rgba(255, 0, 0, 0.25);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+}
+.btn:hover, .btn:focus-visible {
+  background: #2a0a0c;
+  box-shadow: 0 0 22px rgba(255, 30, 30, 0.85), inset 0 0 12px rgba(255, 0, 0, 0.4);
+  transform: scale(1.04);
+  outline: none;
+}
+.btn.small { min-width: 5em; padding: 0.5em 0.9em; font-size: clamp(10px, 1.5vw, 15px); }
+
+.controls-list { list-style: none; text-align: left; font-size: clamp(10px, 1.6vw, 16px); line-height: 2.1; }
+.controls-list span { display: inline-block; min-width: 12em; color: #ff5a5a; }
+
+.dead {
+  font-size: clamp(28px, 7vw, 72px);
+  color: #ff1a1a;
+  text-shadow: 0 0 12px #ff0000, 0 0 30px #800000;
+  animation: flicker 3s infinite;
+}
+.sub-dead { color: #bbb; font-size: clamp(11px, 1.8vw, 18px); margin-bottom: 1em; }
+
+.complete-label { color: #ffe9b0; letter-spacing: 0.4em; font-size: clamp(12px, 2vw, 20px); }
+
+/* Mute button */
+.mute {
+  position: absolute;
+  right: 1%;
+  bottom: 1.5%;
+  z-index: 20;
+  font-size: clamp(12px, 2vw, 20px);
+  background: rgba(10, 0, 0, 0.7);
+  border: 1px solid #b3161c;
+  color: #fff;
+  padding: 0.2em 0.45em;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+/* ---------- Keypad ---------- */
+.keypad-panel {
+  background: #0d0f12;
+  border: 2px solid #3a4250;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  align-items: center;
+  width: min(92%, 640px);
+}
+.riddle { color: #c33; font-size: clamp(9px, 1.5vw, 14px); line-height: 1.6; font-style: italic; }
+.kp-display {
+  font-size: clamp(18px, 3.5vw, 34px);
+  letter-spacing: 0.4em;
+  color: #7dff5a;
+  background: #020403;
+  border: 2px solid #234;
+  padding: 0.2em 0.8em;
+  min-width: 8em;
+  text-shadow: 0 0 8px #4caf50;
+}
+.kp-status { font-size: clamp(10px, 1.6vw, 16px); color: #aaa; min-height: 1.4em; }
+.kp-status.ok { color: #7dff5a; text-shadow: 0 0 8px #4caf50; }
+.kp-status.bad { color: #ff3b3b; text-shadow: 0 0 8px #f00; }
+.kp-keys { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; width: 100%; }
+.kp-keys button {
+  font-family: inherit;
+  font-size: clamp(10px, 1.6vw, 16px);
+  padding: 0.45em 0;
+  background: #1c2028;
+  color: #ddd;
+  border: 1px solid #3a4250;
+  cursor: pointer;
+}
+.kp-keys button:hover { background: #2c3340; color: #7dff5a; }
+.kp-actions { display: flex; gap: 0.6em; flex-wrap: wrap; justify-content: center; }
+
+/* ---------- Touch controls ---------- */
+.touch { display: none; }
+@media (pointer: coarse) {
+  body { justify-content: flex-start; padding-top: 4px; }
+  .touch {
+    display: flex;
+    width: 100%;
+    max-width: 640px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    gap: 12px;
+  }
+}
+.dpad {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.dpad button, .tbtns button {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  font-family: inherit;
+  font-size: 18px;
+  background: rgba(30, 8, 10, 0.9);
+  color: #ffdede;
+  border: 2px solid #b3161c;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+  touch-action: none;
+}
+.t-up { left: 50px; top: 0; }
+.t-left { left: 0; top: 50px; }
+.t-right { left: 100px; top: 50px; }
+.t-down { left: 50px; top: 100px; }
+.tbtns { display: flex; gap: 10px; }
+.tbtns button { position: static; width: 60px; height: 60px; border-radius: 50%; }
