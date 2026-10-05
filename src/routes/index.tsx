@@ -1,24 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "TXT: FLOOR ZERO — Zombie Survival Game" },
+      { name: "description", content: "A pixel-art survival horror game: rescue your friends from a zombie-infested building and escape alive." },
+      { property: "og:title", content: "TXT: FLOOR ZERO — Zombie Survival Game" },
+      { property: "og:description", content: "Rescue Taehyun, Beomgyu, Soobin and Kai from a zombie-infested building." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+// The game itself lives as plain HTML/CSS/JS in public/floor-zero/.
 function Index() {
+  const ref = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    ref.current?.contentWindow?.focus();
+  }, []);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <iframe
+      ref={ref}
+      src="/floor-zero/index.html"
+      title="TXT: FLOOR ZERO"
+      className="fixed inset-0 h-full w-full border-0 bg-background"
+      onLoad={(e) => e.currentTarget.contentWindow?.focus()}
+    />
   );
 }
