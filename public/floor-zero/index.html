@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>TXT: FLOOR ZERO</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Game wrapper: canvas + all HTML overlays (menus, keypad, etc.) -->
+  <div id="wrap">
+    <canvas id="game" width="960" height="640"></canvas>
+
+    <!-- Mute button -->
+    <button id="mute" class="mute" title="Mute / Unmute">🔊</button>
+
+    <!-- MAIN MENU -->
+    <div id="menu" class="overlay">
+      <div class="panel center">
+        <h1 class="title flicker">TXT: FLOOR ZERO</h1>
+        <p class="subtitle">Zombie Survival Game</p>
+        <button class="btn" id="btn-start">START GAME</button>
+        <button class="btn" id="btn-controls">CONTROLS</button>
+        <p class="hint">Five friends. One building. Floor zero.</p>
+      </div>
+    </div>
+
+    <!-- CONTROLS SCREEN -->
+    <div id="controls" class="overlay hidden">
+      <div class="panel center">
+        <h2 class="heading">CONTROLS</h2>
+        <ul class="controls-list">
+          <li><span>WASD / ARROWS</span> Move</li>
+          <li><span>E</span> Interact / Continue dialogue</li>
+          <li><span>SPACE</span> Use stun device</li>
+          <li><span>P / ESC</span> Pause</li>
+        </ul>
+        <p class="hint">A zombie touch costs 1 heart. You have 3.<br />The Cold Storage Safe Room on the Ground Floor is the only place zombies can never enter.</p>
+        <button class="btn" id="btn-back">BACK</button>
+      </div>
+    </div>
+
+    <!-- PAUSE -->
+    <div id="pause" class="overlay hidden">
+      <div class="panel center">
+        <h2 class="heading">PAUSED</h2>
+        <button class="btn" id="btn-resume">RESUME</button>
+        <button class="btn" id="btn-pause-menu">MAIN MENU</button>
+      </div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div id="gameover" class="overlay hidden">
+      <div class="panel center">
+        <h2 class="dead">YOU DIED</h2>
+        <p class="sub-dead">- The infection got you. -</p>
+        <button class="btn" id="btn-retry">TRY AGAIN</button>
+        <button class="btn" id="btn-go-menu">MAIN MENU</button>
+      </div>
+    </div>
+
+    <!-- GAME COMPLETE -->
+    <div id="complete" class="overlay hidden soft">
+      <div class="panel center">
+        <p class="complete-label">GAME COMPLETE</p>
+        <h1 class="title">TXT: FLOOR ZERO</h1>
+        <p class="hint">Yeonjun, Taehyun, Beomgyu, Soobin and Huening Kai walked away together.</p>
+        <button class="btn" id="btn-again">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <!-- KEYPAD (Floor 2 riddle) -->
+    <div id="keypad" class="overlay hidden">
+      <div class="panel keypad-panel">
+        <h2 class="heading">SECURITY KEYPAD</h2>
+        <p class="riddle">"I have no mouth, but I can speak. I have no ears, but I can hear. I have no body, but I come alive with wind."</p>
+        <div id="kp-display" class="kp-display">_</div>
+        <div id="kp-status" class="kp-status">ENTER PASSWORD</div>
+        <div id="kp-keys" class="kp-keys"></div>
+        <div class="kp-actions">
+          <button class="btn small" id="kp-del">DEL</button>
+          <button class="btn small" id="kp-enter">ENTER</button>
+          <button class="btn small" id="kp-close">CLOSE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Touch controls (only shown on touch screens) -->
+  <div id="touch" class="touch">
+    <div class="dpad">
+      <button data-k="up" class="t-up">▲</button>
+      <button data-k="left" class="t-left">◀</button>
+      <button data-k="right" class="t-right">▶</button>
+      <button data-k="down" class="t-down">▼</button>
+    </div>
+    <div class="tbtns">
+      <button data-k="pause">II</button>
+      <button data-k="e">E</button>
+      <button data-k="space">⚡</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
